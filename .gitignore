@@ -168,8 +168,8 @@ xst/
 _ngo/
 _xmsgs/
 
-### Example user template template
-### Example user template
+### setup user template template
+### setup user template
 
 # IntelliJ project files
 .idea
@@ -1049,3 +1049,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+# Testing files
+utils/pymongotest.py
+cogs/hi.py

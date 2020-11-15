@@ -1,17 +1,19 @@
-import discord
 from discord.ext import commands
+from termcolor import colored
 
-class Example(commands.Cog):
 
-    def __init__(self, client):
-        self.client = client
+class ping(commands.Cog):
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print('ping cog is online')
-    @commands.command()
-    async def ping(self, ctx):
-        await ctx.send(f'my ping is {round(self.client.latency * 1000)} ms')
+	def __init__(self, client):
+		self.client = client
+
+	@commands.Cog.listener()
+	async def on_ready(self):
+		print(colored('ping cogs are online!', 'green'))
+	@commands.command()
+	async def ping(self, ctx):
+		await ctx.send(f'my ping is {round(self.client.latency * 1000)} ms')
+
 
 def setup(client):
-    client.add_cog(Example(client))
+	client.add_cog(ping(client))
