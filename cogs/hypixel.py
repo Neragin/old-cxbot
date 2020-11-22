@@ -25,15 +25,21 @@ class Hypixel(commands.Cog):
 			colour = Colour.blue(),
 			title = f"{name}'s stats",
 			description = "order goes solo, doubles, 3's, and 4's",
-			timestamp = f"{datetime.utcnow()}"
+			timestamp = datetime.utcnow(),
 		)
-		embed.set_author(name = f"Hypixel Bedwars", icon_url = f"{user.avatar_url}")
-		embed.add_field(name = "Star Count", value = f"{hypixel_info[1]}")
-		embed.add_field(name = "average fkdr", value = f"{hypixel_info[0]}")
-		embed.add_field(name = "average kdr", value = f"{hypixel_info[2]}")
-		embed.add_field(name = "average winrate", value = f"{hypixel_info[3]}", inline = False)
-		embed.add_field(name = "coins", value = f"{hypixel_info[4]}", )
+		embed.set_thumbnail(url = "https://vignette.wikia.nocookie.net/youtube/images/9/90/Hypixel.jpg/revision/latest?cb=20180708014516")
+		# embed.set_author(name = f"Hypixel Bedwars", icon_url = f"{user.avatar_url}")
+		fields = [
+			("Star Count", hypixel_info[1], True),
+			("Average fkdr", hypixel_info[0], True),
+			("Average kdr", hypixel_info[2], True),
+			("Average Winrate", hypixel_info[3], True),
+			("coins", hypixel_info[4], False),
+		]
+		for name, value, inline in fields:
+			embed.add_field(name = name, value = value, inline = inline)
 		await ctx.send(embed = embed)
+
 
 def setup(client):
 	client.add_cog(Hypixel(client))

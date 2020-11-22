@@ -4,7 +4,7 @@ import logging
 import discord
 from discord.ext import commands
 from termcolor import colored
-
+from discord.ext.commands import CommandNotFound
 botname = os.environ.get('BOTNAME')
 client = commands.Bot(command_prefix = f'{botname} ')  # the prefix
 Intents = Intents.all()
@@ -47,11 +47,23 @@ async def reload(ctx, extension):
 		client.load_extension(f'cogs.{extension}')
 
 
-# @client.event
-# async def on_command_error(ctx, error):
-# 	if isinstance(error, commands.MissingRequiredArgument):
-# 		await ctx.send("pass in the required arguments dumbo")
+async def on_error(self, err, *args, **kwargs):
+	if err == "on_command_error":
+		await args[0].send("Something went wrong!")
 
+	raise
+
+
+@client.event
+async def on_command_error(ctx, error):
+	if isinstance(error, commands.MissingRequiredArgument):
+		await ctx.send("pass in the required arguments dumbo")
+	# elif isinstance(error, CommandNotFound):
+	# 	pass
+	# elif hasattr(error, "original"):
+	# 	raise error.original
+	# else:
+	# 	raise error
 
 for filename in os.listdir('cogs'):
 	if filename.endswith('.py'):

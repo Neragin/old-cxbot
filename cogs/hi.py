@@ -11,7 +11,7 @@ class Example(Cog):
 	async def on_ready(self):
 		print(colored('hi cogs are online', 'green'))
 
-	@command()  # boilerplate code for cogs
+	@command()
 	async def hi(self, ctx):
 		await ctx.send("HELLO PERSON")
 
