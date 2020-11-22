@@ -3,9 +3,10 @@ import re
 import asyncio
 
 from discord.ext import commands
-from discord.ext.commands import Cog
+from discord.ext.commands import Cog, command
 from pymongo import MongoClient
 from termcolor import colored
+
 dbpassword = os.environ.get("DBPASS")
 dbuser = os.environ.get("DBUSER")
 mongoserver = os.environ.get("MONGOSERVER")
@@ -21,7 +22,7 @@ class scedules(Cog):
 	async def on_ready(self):
 		print(colored('cog is online', 'green'))
 
-	@commands.command()
+	@command()
 	async def scheduleSetup(self, ctx):
 		db = cluster["personal"]
 		collection = db["scheduledReminders"]
@@ -46,5 +47,7 @@ class scedules(Cog):
 		await ctx.send("pass")
 		post = {"_id": ctx.author.id, "person": person, "hour": times[0], "minutes": times[1], "clock": times[2], "timezone": times[3]}
 		collection.insert_one(post)
+
+
 def setup(client):
 	client.add_cog(scedules(client))

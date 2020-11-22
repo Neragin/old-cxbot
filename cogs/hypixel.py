@@ -2,6 +2,7 @@ from datetime import datetime
 
 from discord import Embed, Colour
 from discord.ext import commands
+from discord.ext.commands import Cog, command
 from termcolor import colored
 
 from utils import hypixelapi
@@ -11,11 +12,11 @@ class Hypixel(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@commands.Cog.listener()
+	@Cog.listener()
 	async def on_ready(self):
 		print(colored('hypixel cogs are online!', 'green'))
 
-	@commands.command()
+	@command()
 	async def bedwars(self, ctx, name):
 		await ctx.send('pass')
 		hypixel_info = hypixelapi.averagefkdr(name)
@@ -33,7 +34,6 @@ class Hypixel(commands.Cog):
 		embed.add_field(name = "average winrate", value = f"{hypixel_info[3]}", inline = False)
 		embed.add_field(name = "coins", value = f"{hypixel_info[4]}", )
 		await ctx.send(embed = embed)
-
 
 def setup(client):
 	client.add_cog(Hypixel(client))

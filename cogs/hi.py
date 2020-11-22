@@ -1,6 +1,7 @@
 from discord.ext import commands
-from discord.ext.commands import Cog
+from discord.ext.commands import Cog, command
 from termcolor import colored
+
 
 class Example(Cog):
 	def __init__(self, client):
@@ -10,7 +11,7 @@ class Example(Cog):
 	async def on_ready(self):
 		print(colored('hi cogs are online', 'green'))
 
-	@commands.command() # boilerplate code for cogs
+	@command()  # boilerplate code for cogs
 	async def hi(self, ctx):
 		await ctx.send("HELLO PERSON")
 
