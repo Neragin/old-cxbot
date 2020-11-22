@@ -1,10 +1,11 @@
-from discord import Intents
-import os
 import logging
+import os
+
 import discord
+from discord import Intents
 from discord.ext import commands
 from termcolor import colored
-from discord.ext.commands import CommandNotFound
+
 botname = os.environ.get('BOTNAME')
 client = commands.Bot(command_prefix = f'{botname} ')  # the prefix
 Intents = Intents.all()
@@ -14,16 +15,6 @@ Intents = Intents.all()
 async def on_ready():
 	await client.change_presence(status = discord.Status.idle, activity = discord.Game('cx bot'))
 	print(colored('bot is ready', 'green'))  # says when bot is ready
-
-
-@client.event
-async def on_connect():
-	print(colored('bot is connected', 'green'))
-
-
-@client.event
-async def on_disconnect():
-	print(colored('bot is disconnected', 'red'))
 
 
 @client.command(hidden = True)
@@ -58,12 +49,14 @@ async def on_error(self, err, *args, **kwargs):
 async def on_command_error(ctx, error):
 	if isinstance(error, commands.MissingRequiredArgument):
 		await ctx.send("pass in the required arguments dumbo")
-	# elif isinstance(error, CommandNotFound):
-	# 	pass
-	# elif hasattr(error, "original"):
-	# 	raise error.original
-	# else:
-	# 	raise error
+
+
+# elif isinstance(error, CommandNotFound):
+# 	pass
+# elif hasattr(error, "original"):
+# 	raise error.original
+# else:
+# 	raise error
 
 for filename in os.listdir('cogs'):
 	if filename.endswith('.py'):
