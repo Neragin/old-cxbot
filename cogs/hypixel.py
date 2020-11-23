@@ -18,8 +18,7 @@ class Hypixel(commands.Cog):
 
 	@command()
 	async def bedwars(self, ctx, name):
-		await ctx.send('pass')
-		hypixel_info = hypixelapi.averagefkdr(name)
+		hypixelinfo = hypixelapi.averagefkdr(name)
 		user = ctx.author
 		embed = Embed(
 			colour = Colour.blue(),
@@ -30,11 +29,11 @@ class Hypixel(commands.Cog):
 		embed.set_thumbnail(url = "https://vignette.wikia.nocookie.net/youtube/images/9/90/Hypixel.jpg/revision/latest?cb=20180708014516")
 		# embed.set_author(name = f"Hypixel Bedwars", icon_url = f"{user.avatar_url}")
 		fields = [
-			("Star Count", hypixel_info[1], True),
-			("Average fkdr", hypixel_info[0], True),
-			("Average kdr", hypixel_info[2], True),
-			("Average Winrate", hypixel_info[3], True),
-			("coins", hypixel_info[4], False),
+			("Star Count", hypixelinfo[1], True),
+			("Average fkdr", hypixelinfo[0], True),
+			("Average kdr", hypixelinfo[2], True),
+			("Average Winrate", hypixelinfo[3], True),
+			("coins", hypixelinfo[4], False),
 		]
 		for name, value, inline in fields:
 			embed.add_field(name = name, value = value, inline = inline)

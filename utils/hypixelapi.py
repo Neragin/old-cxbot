@@ -13,10 +13,8 @@ REVERSE_CONST = REVERSE_PQ_PREFIX
 GROWTH_DIVIDES_2 = 2 / GROWTH
 
 
-def get_level(name):
-	url = f"https://api.hypixel.net/player?key={api_key}&name={name}"
-	res = requests.get(url)
-	data = res.json()
+def get_level(name: str):
+	data = requests.get(f"https://api.hypixel.net/player?key={api_key}&name={name}").json()
 	if data["player"] is None:
 		return None
 	exp = int(data["player"]["networkExp"])  # This just gets the player experience from our data
@@ -29,11 +27,11 @@ def averagefkdr(name):
 	data = res.json()
 	sum = round(int(data['player']['stats']['Bedwars']['final_kills_bedwars']) / int(data['player']['stats']['Bedwars']['final_deaths_bedwars']), 2)
 	starcount = int(data['player']['achievements']['bedwars_level'])
-	e = int(data['player']['stats']['Bedwars']['eight_one_kills_bedwars']) / int(data['player']['stats']['Bedwars']['eight_one_deaths_bedwars'])
+	solokills = int(data['player']['stats']['Bedwars']['eight_one_kills_bedwars']) / int(data['player']['stats']['Bedwars']['eight_one_deaths_bedwars'])
 	f = int(data['player']['stats']['Bedwars']['eight_two_kills_bedwars']) / int(data['player']['stats']['Bedwars']['eight_two_deaths_bedwars'])
 	g = int(data['player']['stats']['Bedwars']['four_three_kills_bedwars']) / int(data['player']['stats']['Bedwars']['four_three_deaths_bedwars'])
 	h = int(data['player']['stats']['Bedwars']['four_four_kills_bedwars']) / int(data['player']['stats']['Bedwars']['four_four_deaths_bedwars'])
-	gf = e + f + g + h
+	gf = solokills + f + g + h
 	gf = gf / 4
 	edsd = int(data['player']['stats']['Bedwars']['eight_one_wins_bedwars']) / int(data['player']['stats']['Bedwars']['eight_one_losses_bedwars'])
 	fdsds = int(data['player']['stats']['Bedwars']['eight_two_wins_bedwars']) / int(data['player']['stats']['Bedwars']['eight_two_losses_bedwars'])

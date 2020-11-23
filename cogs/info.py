@@ -37,6 +37,14 @@ class Info(Cog):
 			embed.add_field(name = name, value = value, inline = inline)
 		await ctx.send(embed = embed)
 
+	"""
+	Shows Server Info 
+	gets the server ID, Region, Owner, Name, amount of roles, when server was made, and the member count
+	
+	name = serverinfo
+	aliases = si, guildinfo, gi
+	"""
+
 	@command(name = "serverinfo", aliases = ["si", "guildinfo", "gi"])
 	async def server_info(self, ctx):
 		embed = Embed(

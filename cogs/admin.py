@@ -20,14 +20,17 @@ class Admin(Cog):
 		await ctx.channel.purge(limit = amount)
 
 	@command(name = "kick", aliases = ["boot"])
+	@has_permissions(kick_members=True)
 	async def kick(self, ctx, member: Member, *, reason = None):
 		await member.kick(reason = reason)
 
 	@command(name = "ban", aliases = ["exile"])
+	@has_permissions(ban_members = True)
 	async def ban(self, ctx, member: Member, *, reason = None):
 		await member.ban(reason = reason)
 
 	@command(name = "unban")
+	@has_permissions(ban_members=True)
 	async def unban(self, ctx, *, member):
 		banned_users = await ctx.guild.bans()
 		member_name, member_discriminator = member.split('#')
