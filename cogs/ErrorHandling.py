@@ -10,6 +10,8 @@ class Example(Cog):
 		if isinstance(error, MissingRequiredArgument):
 			await ctx.send("Pass in the right arguments!")
 
+		raise
+
 
 def setup(client):
 	client.add_cog(Example(client))

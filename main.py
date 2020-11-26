@@ -1,19 +1,19 @@
 import logging
 import os
 
-import discord
 from discord import Intents
-from discord.ext import commands
+from discord.ext.commands import Bot
 from termcolor import colored
+from utils import ApiLogging
 
 botname = os.environ.get('BOTNAME')
-client = commands.Bot(command_prefix = f'{botname} ')  # the prefix
+
+client = Bot(command_prefix = f"{botname} ")  # the prefix
 Intents = Intents.all()
 
 
 @client.event
 async def on_ready():
-	await client.change_presence(status = discord.Status.idle, activity = discord.Game('cx bot'))
 	print(colored('bot is ready', 'green'))  # says when bot is ready
 
 
@@ -38,19 +38,9 @@ async def reload(ctx, extension):
 		client.load_extension(f'cogs.{extension}')
 
 
-async def on_error(self, err, *args, **kwargs):
-	if err == "on_command_error":
-		await args[0].send("Something went wrong!")
-
-	raise
-
-
 for filename in os.listdir('cogs'):
 	if filename.endswith('.py'):
 		client.load_extension(f'cogs.{filename[:-3]}')
-logger = logging.getLogger('discord')
-logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename = 'logs/discordapi.log', encoding = 'utf-8', mode = 'w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
+
+ApiLogging.apilogging()
 client.run(os.environ.get('DISCORD_API_KEY'))

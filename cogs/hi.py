@@ -30,5 +30,6 @@ class Example(Cog):
 			embed.add_field(name = name, value = value, inline = inline)
 		await ctx.send(embed = embed)
 
+
 def setup(client):
 	client.add_cog(Example(client))
