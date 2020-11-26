@@ -45,7 +45,6 @@ async def on_error(self, err, *args, **kwargs):
 	raise
 
 
-
 for filename in os.listdir('cogs'):
 	if filename.endswith('.py'):
 		client.load_extension(f'cogs.{filename[:-3]}')

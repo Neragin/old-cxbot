@@ -1,11 +1,9 @@
 from datetime import datetime
 
+import psutil
 from discord import Embed
-from discord.ext import commands
 from discord.ext.commands import Cog, command
 from termcolor import colored
-import os
-import psutil
 
 
 class Botinfo(Cog):

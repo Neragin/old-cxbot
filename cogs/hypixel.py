@@ -20,8 +20,6 @@ class Hypixel(commands.Cog):
 
 	@command()
 	async def bedwars(self, ctx, name):
-		hypixelinfo = hypixelapi.averagefkdr(name)
-		user = ctx.author
 		data = requests.get(f"https://api.hypixel.net/player?key={api_key}&name={name}").json()
 		embed = Embed(
 			colour = Colour.blue(),

@@ -65,6 +65,7 @@ def getBedwarsWinRate(data: dict, gamemode: str):
 	}
 	return round(data['player']['stats']['Bedwars'][f"{apiGamemode[gamemode]}wins_bedwars"] / data['player']['stats']['Bedwars'][f"{apiGamemode[gamemode]}losses_bedwars"], 2)
 
+
 """
 This returns gets the fkdr based on gamemode
 params - data - the data from Hypixel's api

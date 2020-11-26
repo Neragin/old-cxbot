@@ -1,4 +1,3 @@
-from discord.ext import commands
 from discord.ext.commands import command, Cog
 from termcolor import colored
 

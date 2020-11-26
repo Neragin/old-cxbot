@@ -1,9 +1,4 @@
-from datetime import datetime
-
-from discord import Embed, Colour
-from discord.ext import commands
-from discord.ext.commands import Cog, command, MissingRequiredArgument
-from termcolor import colored
+from discord.ext.commands import Cog, MissingRequiredArgument
 
 
 class Example(Cog):

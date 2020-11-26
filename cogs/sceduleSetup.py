@@ -1,8 +1,6 @@
 import os
 import re
-import asyncio
 
-from discord.ext import commands
 from discord.ext.commands import Cog, command
 from pymongo import MongoClient
 from termcolor import colored
@@ -26,8 +24,6 @@ class scedules(Cog):
 	async def scheduleSetup(self, ctx):
 		db = cluster["personal"]
 		collection = db["scheduledReminders"]
-		valid = False
-		amorpm = ""
 		person = ctx.author.id
 
 		def check(m):
