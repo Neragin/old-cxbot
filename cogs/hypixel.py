@@ -27,7 +27,6 @@ class Hypixel(commands.Cog):
 			timestamp = datetime.utcnow(),
 		)
 		embed.set_thumbnail(url = "https://vignette.wikia.nocookie.net/youtube/images/9/90/Hypixel.jpg/revision/latest?cb=20180708014516")
-		# embed.set_author(name = f"Hypixel Bedwars", icon_url = f"{user.avatar_url}")
 		fields = [
 			("Star Count", hypixelinfo[1], True),
 			("Average fkdr", hypixelinfo[0], True),
