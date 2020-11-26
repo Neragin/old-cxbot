@@ -45,18 +45,6 @@ async def on_error(self, err, *args, **kwargs):
 	raise
 
 
-@client.event
-async def on_command_error(ctx, error):
-	if isinstance(error, commands.MissingRequiredArgument):
-		await ctx.send("pass in the required arguments dumbo")
-
-
-# elif isinstance(error, CommandNotFound):
-# 	pass
-# elif hasattr(error, "original"):
-# 	raise error.original
-# else:
-# 	raise error
 
 for filename in os.listdir('cogs'):
 	if filename.endswith('.py'):
