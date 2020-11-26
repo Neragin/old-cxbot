@@ -1,11 +1,13 @@
 from datetime import datetime
 
+import requests
 from discord import Embed, Colour
 from discord.ext import commands
 from discord.ext.commands import Cog, command
 from termcolor import colored
 
 from utils import hypixelapi
+from utils.hypixelapi import api_key
 
 
 class Hypixel(commands.Cog):
@@ -20,6 +22,7 @@ class Hypixel(commands.Cog):
 	async def bedwars(self, ctx, name):
 		hypixelinfo = hypixelapi.averagefkdr(name)
 		user = ctx.author
+		data = requests.get(f"https://api.hypixel.net/player?key={api_key}&name={name}").json()
 		embed = Embed(
 			colour = Colour.blue(),
 			title = f"{name}'s stats",
@@ -28,11 +31,8 @@ class Hypixel(commands.Cog):
 		)
 		embed.set_thumbnail(url = "https://vignette.wikia.nocookie.net/youtube/images/9/90/Hypixel.jpg/revision/latest?cb=20180708014516")
 		fields = [
-			("Star Count", hypixelinfo[1], True),
-			("Average fkdr", hypixelinfo[0], True),
-			("Average kdr", hypixelinfo[2], True),
-			("Average Winrate", hypixelinfo[3], True),
-			("coins", hypixelinfo[4], False),
+			("WinRate", hypixelapi.getBedwarsWinRate(data, "all"), True),
+			("AvgFKDR", hypixelapi.getBedwarsFinalKillDeath(data, "all"), True),
 		]
 		for name, value, inline in fields:
 			embed.add_field(name = name, value = value, inline = inline)
