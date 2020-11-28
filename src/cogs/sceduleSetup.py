@@ -40,5 +40,3 @@ class scedules(Cog):
 
 def setup(client):
 	client.add_cog(scedules(client))
-
-
