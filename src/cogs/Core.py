@@ -13,6 +13,7 @@ class Core(Cog):
 	async def on_ready(self):
 		await self.client.change_presence(status = Status.idle, activity = Game(f"{EnvVars.botname} help for commands"))
 		print(colored(f"{EnvVars.botname} is online!", 'green'))
+		print(self.client.guilds)
 
 	@command(hidden = True)
 	@is_owner()
