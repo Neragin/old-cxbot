@@ -1,24 +1,17 @@
-import os
 import re
 
 from discord.ext.commands import Cog, command
 from pymongo import MongoClient
-from termcolor import colored
 
-dbpassword = os.environ.get("DBPASS")
-dbuser = os.environ.get("DBUSER")
-mongoserver = os.environ.get("MONGOSERVER")
-cluster = MongoClient(f"{mongoserver}personal?retryWrites=true&w=majority")
+from utils.vars import EnvVars
+
+cluster = MongoClient(f"{EnvVars.mongoserver}personal?retryWrites=true&w=majority")
 
 
 class scedules(Cog):
 
 	def __init__(self, client):
 		self.client = client
-
-	@Cog.listener()
-	async def on_ready(self):
-		print(colored('cog is online', 'green'))
 
 	@command()
 	async def scheduleSetup(self, ctx):

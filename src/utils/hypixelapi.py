@@ -1,9 +1,9 @@
 import math
-import os
 
 import requests
 
-api_key = os.environ.get('HYPIXEL_API_KEY')
+from utils.vars import EnvVars
+
 solo = ['solo', '1v1v1v1v1v1v1v1', 'solos']
 doubles = ['doubles', '2v2v2v2v2v2v2v2', 'double', ]
 BASE = 10_000
@@ -17,7 +17,7 @@ Gets the hypixel level
 
 
 def getLevel(name: str):
-	data = requests.get(f"https://api.hypixel.net/player?key={api_key}&name={name}").json()
+	data = requests.get(f"https://api.hypixel.net/player?key={EnvVars.hypixelKey}&name={name}").json()
 	if data["player"] is None:
 		return None
 	exp = int(data["player"]["networkExp"])  # This just gets the player experience from our data
@@ -25,7 +25,7 @@ def getLevel(name: str):
 
 
 def averagefkdr(name):
-	url = f"https://api.hypixel.net/player?key={api_key}&name={name}"
+	url = f"https://api.hypixel.net/player?key={EnvVars.hypixelKey}&name={name}"
 	res = requests.get(url)
 	data = res.json()
 	print(type(data))

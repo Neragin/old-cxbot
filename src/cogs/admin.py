@@ -1,15 +1,10 @@
 from discord import Member
 from discord.ext.commands import Cog, command, has_permissions
-from termcolor import colored
 
 
 class Admin(Cog):
 	def __init__(self, client):
 		self.client = client
-
-	@Cog.listener()
-	async def on_ready(self):
-		print(colored('Admin cogs are online', 'green'))
 
 	@command(name = "clear", aliases = ["purge", "bulkremove", "bulkdelete", "wipe"])  # boilerplate code for cogs
 	@has_permissions(manage_messages = True)
