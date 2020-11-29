@@ -1054,3 +1054,5 @@ utils/pymongotest.py
 cogs/hi.py
 cogs/dev.py
 env.list
+*.db3
+*.db-journal

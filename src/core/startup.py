@@ -3,7 +3,7 @@ import os
 from discord import Intents
 from discord.ext.commands import Bot
 
-from utils import ApiLogging
+from core import ApiLogging
 from utils.vars import EnvVars, Styling
 
 

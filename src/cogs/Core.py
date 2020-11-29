@@ -1,8 +1,8 @@
-from discord import Game, Status
+from discord import Game, Status, guild
 from discord.ext.commands import Cog, command, is_owner
 from termcolor import colored
-
 from utils.vars import EnvVars, Styling
+from utils import database
 
 
 class Core(Cog):
@@ -14,7 +14,17 @@ class Core(Cog):
 		await self.client.change_presence(status = Status.idle, activity = Game(f"{EnvVars.botname} help for commands"))
 		print(colored(f"{EnvVars.botname} is online!", 'green'))
 		print(self.client.guilds)
-		print("----------------")
+
+	@Cog.listener()
+	async def on_guild_join(self, guild):
+		print(f"I have joined {guild}")
+		database.execute("INSERT INTO guild (GuildID, LogChannel)VALUES (?, ?)", guild.id, 0)
+		database.commit()
+
+	@Cog.listener()
+	async def on_guild_remove(self, guild):
+		database.execute(f"DELETE from guild WHERE GuildID = {guild.id}")
+		database.commit()
 
 	@command(hidden = True)
 	@is_owner()
