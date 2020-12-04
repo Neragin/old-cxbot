@@ -1,6 +1,4 @@
 import sqlite3
-import datetime as dt
-import random
 
 cxn = sqlite3.connect('../data/bot.db')
 cxn.execute("PRAGMA foreign_keys = ON;")

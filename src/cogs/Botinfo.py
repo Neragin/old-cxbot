@@ -6,7 +6,7 @@ import psutil
 from discord import Embed
 from discord.ext.commands import Cog, command
 
-from utils.vars import EnvVars
+from utils.Vars import EnvVars
 
 
 class Botinfo(Cog):

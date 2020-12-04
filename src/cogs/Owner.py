@@ -2,7 +2,7 @@ from discord.ext import commands
 from discord.ext.commands import command, Cog
 
 
-class cx(Cog):
+class Owner(Cog):
 
 	def __init__(self, client):
 		self.client = client
@@ -16,10 +16,10 @@ class cx(Cog):
 	@speak.error
 	async def speak_error(self, ctx, error):
 		if isinstance(error, commands.CheckFailure):
-			await ctx.send("You aren't my owner!")
+			await ctx.send("You aren't my Owner!")
 		else:
 			raise error
 
 
 def setup(client):
-	client.add_cog(cx(client))
+	client.add_cog(Owner(client))

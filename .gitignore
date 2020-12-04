@@ -1051,8 +1051,8 @@ Temporary Items
 .apdisk
 # Testing files
 utils/pymongotest.py
-cogs/hi.py
-cogs/dev.py
-env.list
+/src/cogs/dev.py
+/docker/env.list
 *.db3
 *.db-journal
+src/data/bot.db
