@@ -2,7 +2,7 @@ from discord import Game, Status
 from discord.ext.commands import Cog, command, is_owner
 
 from utils import Database
-from utils.Vars import EnvVars, Styling
+from utils.vars import EnvVars, Styling
 
 
 class Core(Cog):

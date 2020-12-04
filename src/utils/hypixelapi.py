@@ -2,7 +2,7 @@ import math
 
 import requests
 
-from utils.Vars import EnvVars
+from utils.vars import EnvVars
 
 solo = ['solo', '1v1v1v1v1v1v1v1', 'solos']
 doubles = ['doubles', '2v2v2v2v2v2v2v2', 'double', ]

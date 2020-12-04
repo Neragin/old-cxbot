@@ -2,7 +2,7 @@ from discord.ext import commands
 from discord.ext.commands import command
 
 
-class ping(commands.Cog):
+class Hi(commands.Cog):
 
 	def __init__(self, client):
 		self.client = client
@@ -13,4 +13,4 @@ class ping(commands.Cog):
 
 
 def setup(client):
-	client.add_cog(ping(client))
+	client.add_cog(Hi(client))

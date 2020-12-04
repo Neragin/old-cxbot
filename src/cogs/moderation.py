@@ -2,7 +2,7 @@ from discord import Member
 from discord.ext.commands import Cog, command, has_permissions
 
 
-class Admin(Cog):
+class Moderation(Cog):
 	def __init__(self, client):
 		self.client = client
 
@@ -40,4 +40,4 @@ class Admin(Cog):
 
 
 def setup(client):
-	client.add_cog(Admin(client))
+	client.add_cog(Moderation(client))

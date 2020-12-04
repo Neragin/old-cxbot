@@ -3,7 +3,7 @@ from discord.ext import commands
 
 # from pymongo import MongoClient
 from utils import Database as db
-from utils.Vars import EnvVars
+from utils.vars import EnvVars
 
 
 # cluster = MongoClient(f"{EnvVars.mongoserver}GuildData?retryWrites=true&w=majority")

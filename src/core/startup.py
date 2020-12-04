@@ -4,7 +4,7 @@ from discord import Intents
 from discord.ext.commands import Bot
 
 from core import Apilogging
-from utils.Vars import EnvVars, Styling
+from utils.vars import EnvVars, Styling
 
 
 class cxbot:

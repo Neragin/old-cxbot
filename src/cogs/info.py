@@ -51,7 +51,7 @@ class Info(Cog):
 		fields = [
 			("ID", ctx.guild.id, False),
 			("Region", ctx.guild.region, True),
-			("Owner", ctx.guild.Owner, True),
+			("Owner", ctx.guild.owner, True),
 			("Name", ctx.guild.name, True),
 			("Roles", len(ctx.guild.roles), True),
 			("created at", ctx.guild.created_at.strftime("%m/%d/%Y %H:%M:%S"), True),
