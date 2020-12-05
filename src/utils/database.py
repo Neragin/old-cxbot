@@ -23,7 +23,7 @@ def execute(command, *values):
 	cur.execute(command, values)
 
 
-def fetch(*args):
+def fetchall(*args):
 	cur.execute(*args)
 	return cur.fetchall()
 

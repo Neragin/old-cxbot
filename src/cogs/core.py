@@ -1,7 +1,7 @@
 from discord import Game, Status
 from discord.ext.commands import Cog, command, is_owner
 
-from utils import Database
+from utils import database
 from utils.vars import EnvVars, Styling
 
 
@@ -18,13 +18,13 @@ class Core(Cog):
 	@Cog.listener()
 	async def on_guild_join(self, guild):
 		print(f"I have joined {guild}")
-		Database.execute("INSERT INTO guild (GuildID, LogChannel)VALUES (?, ?)", guild.id, 0)
-		Database.commit()
+		database.execute("INSERT INTO guild (GuildID, LogChannel)VALUES (?, ?)", guild.id, 0)
+		database.commit()
 
 	@Cog.listener()
 	async def on_guild_remove(self, guild):
-		Database.execute(f"DELETE from guild WHERE GuildID = {guild.id}")
-		Database.commit()
+		database.execute(f"DELETE from guild WHERE GuildID = {guild.id}")
+		database.commit()
 
 	@command(hidden = True)
 	@is_owner()
@@ -57,6 +57,13 @@ class Core(Cog):
 	@Cog.listener()
 	async def on_resumed(self):
 		print("Bot resumed")
+
+	@command(name = "shutdown", aliases = ["die", "kill", "terminate", "disconnect", "exit", "goboom"])
+	@is_owner()
+	async def shutdown(self, ctx):
+		await ctx.send("I am shutting down now.")
+		await self.client.change_presence(status = Status.do_not_disturb, activity = Game("Shutting down!"))
+		await self.client.close()
 
 
 def setup(client):

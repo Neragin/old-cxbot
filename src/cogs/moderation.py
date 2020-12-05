@@ -6,7 +6,7 @@ class Moderation(Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@command(name = "clear", aliases = ["purge", "bulkremove", "bulkdelete", "wipe"])  # boilerplate code for cogs
+	@command(name = "clear", aliases = ["purge", "bulkremove", "bulkdelete", "wipe"])
 	@has_permissions(manage_messages = True)
 	async def clear(self, ctx, amount):
 		amount = int(amount)

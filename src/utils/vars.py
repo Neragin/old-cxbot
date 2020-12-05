@@ -8,6 +8,7 @@ class EnvVars:
 	dbuser = os.environ.get("DBUSER")
 	mongoserver = os.environ.get("MONGOSERVER")
 	discordkey = os.environ.get('DISCORD_API_KEY')
+	catapi = os.environ.get('CATAPIKEY')
 
 
 class Styling:

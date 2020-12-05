@@ -2,7 +2,7 @@ from discord import TextChannel
 from discord.ext import commands
 
 # from pymongo import MongoClient
-from utils import Database as db
+from utils import database as db
 from utils.vars import EnvVars
 
 
