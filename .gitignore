@@ -1056,3 +1056,4 @@ utils/pymongotest.py
 *.db3
 *.db-journal
 src/data/bot.db
+/src/core/script.sql

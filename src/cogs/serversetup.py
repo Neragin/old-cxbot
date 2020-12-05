@@ -1,12 +1,9 @@
 from discord import TextChannel
 from discord.ext import commands
+from discord.ext.commands import has_permissions
 
-# from pymongo import MongoClient
 from utils import database as db
 from utils.vars import EnvVars
-
-
-# cluster = MongoClient(f"{EnvVars.mongoserver}GuildData?retryWrites=true&w=majority")
 
 
 class ServerSetup(commands.Cog):
@@ -19,6 +16,7 @@ class ServerSetup(commands.Cog):
 		await ctx.send(f"Hello! I am the wizard for {EnvVars.botname} bot. This command is for a group of commands, so use {EnvVars.botname} setup <command>")
 
 	@setup.command()
+	@has_permissions()
 	async def logging(self, ctx, channel: TextChannel):
 		await ctx.send("Good to go!")
 		await ctx.send(channel)
