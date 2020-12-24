@@ -16,7 +16,7 @@ class ServerSetup(commands.Cog):
 		await ctx.send(f"Hello! I am the wizard for {EnvVars.botname} bot. This command is for a group of commands, so use {EnvVars.botname} setup <command>")
 
 	@setup.command()
-	@has_permissions()
+	@has_permissions(manage_messages = True)
 	async def logging(self, ctx, channel: TextChannel):
 		await ctx.send(channel)
 		if type(channel) == TextChannel and channel.guild == ctx.guild:
