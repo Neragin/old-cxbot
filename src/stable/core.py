@@ -1,7 +1,7 @@
 from discord import Game, Status
 from discord.ext.commands import Cog, command, is_owner
 
-from utils import database
+from utils import data as db
 from utils.vars import EnvVars, Styling
 
 
@@ -13,18 +13,23 @@ class Core(Cog):
 	async def on_ready(self):
 		await self.client.change_presence(status = Status.idle, activity = Game(f"{EnvVars.botname} help for commands"))
 		print(f"{Styling.OKGREEN}{EnvVars.botname} is online!")
-		print(self.client.guilds)
+		print(len(self.client.guilds))
+		print("----------adding unadded guilds into database----------")
+		for guild in self.client.guilds:
+			db.execute("INSERT OR IGNORE INTO guild (GuildID, LogChannel) VALUES (?, ?)", guild.id, 0)
+			db.commit()
+			print(f"added {guild}")
+		print("Done!")
 
 	@Cog.listener()
 	async def on_guild_join(self, guild):
-		print(f"I have joined {guild}")
-		database.execute("INSERT INTO guild (GuildID, LogChannel)VALUES (?, ?)", guild.id, 0)
-		database.commit()
+		db.execute("INSERT INTO guild (GuildID, LogChannel)VALUES (?, ?)", guild.id, 0)
+		db.commit()
 
 	@Cog.listener()
 	async def on_guild_remove(self, guild):
-		database.execute(f"DELETE from guild WHERE GuildID = {guild.id}")
-		database.commit()
+		db.execute(f"DELETE from guild WHERE GuildID = {guild.id}")
+		db.commit()
 
 	@command(hidden = True)
 	@is_owner()
@@ -52,6 +57,7 @@ class Core(Cog):
 
 	@Cog.listener()
 	async def on_disconnect(self):
+		db.close()
 		print(Styling.FAIL + "Bot disconnected")
 
 	@Cog.listener()
@@ -63,6 +69,7 @@ class Core(Cog):
 	async def shutdown(self, ctx):
 		await ctx.send("I am shutting down now.")
 		await self.client.change_presence(status = Status.do_not_disturb, activity = Game("Shutting down!"))
+		db.close()
 		await self.client.close()
 
 

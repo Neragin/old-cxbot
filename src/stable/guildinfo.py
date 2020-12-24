@@ -5,7 +5,7 @@ from discord import Embed, Member
 from discord.ext.commands import Cog, command
 
 
-class Info(Cog):
+class GuildInfo(Cog):
 	def __init__(self, client):
 		self.client = client
 
@@ -26,6 +26,7 @@ class Info(Cog):
 			("Bot?", target.bot, True),
 			("Top role", target.top_role.mention, True),
 			("Created at", target.created_at.strftime("%m/%d/%Y %H:%M:%S"), True),
+			("raw status", target.raw_status or '\u200B', True),
 			("Joined at", target.joined_at.strftime("%m/%d/%Y %H:%M:%S"), True),
 		]
 		for name, value, inline in fields:
@@ -63,4 +64,4 @@ class Info(Cog):
 
 
 def setup(client):
-	client.add_cog(Info(client))
+	client.add_cog(GuildInfo(client))

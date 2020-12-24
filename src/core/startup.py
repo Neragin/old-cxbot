@@ -1,29 +1,42 @@
 import os
 
 from discord import Intents
-from discord.ext.commands import Bot
-
-from core import Apilogging
+from discord.ext.commands import Bot, when_mentioned_or
+from core import apilogging
 from utils.vars import EnvVars, Styling
 
+PREFIX = f"{EnvVars.botname} "
 
-class cxbot:
+
+def get_prefix(bot, message):
+	return when_mentioned_or(PREFIX)(bot, message)
+
+
+class CxBot:
 
 	def __init__(self):
-		self.Intents = Intents.all()
-		self.client = Bot(command_prefix = f"{EnvVars.botname} ", case_insensitive = True)
+		intents = Intents.all()
+		self.client = Bot(command_prefix = get_prefix, case_insensitive = True, intents = intents)
 
-	def loadCogs(self):
+	def loadcogs(self):
 		for filename in os.listdir("cogs"):
 			if filename.endswith(".py"):
 				self.client.load_extension(f"cogs.{filename[:-3]}")
 				print(f"Loaded cog {filename[:-2]}")
 		print(Styling.OKGREEN + "Finished loading all cogs!")
+		
+	def loadcommands(self):
+		for filename in os.listdir("stable"):
+			if filename.endswith(".py"):
+				self.client.load_extension(f"stable.{filename[:-3]}")
+				print(f"Loaded cog {filename[:-2]}")
+		print(Styling.OKGREEN + "Finished loading all stable commands!")
 
 	def runbot(self):
-		self.loadCogs()
-		Apilogging.apilogging()
+		self.loadcogs()
+		self.loadcommands()
+		apilogging.apilogging()
 		self.client.run(EnvVars.discordkey, reconnect = True)
 
 
-cxbot = cxbot()
+CxBot = CxBot()

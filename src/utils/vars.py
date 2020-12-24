@@ -2,13 +2,13 @@ import os
 
 
 class EnvVars:
-	botname = os.environ.get('BOTNAME')
-	hypixelKey = os.environ.get('HYPIXEL_API_KEY')
-	dbpassword = os.environ.get("DBPASS")
-	dbuser = os.environ.get("DBUSER")
-	mongoserver = os.environ.get("MONGOSERVER")
-	discordkey = os.environ.get('DISCORD_API_KEY')
-	catapi = os.environ.get('CATAPIKEY')
+	botname: str = os.environ.get('BOTNAME')
+	hypixelKey: str = os.environ.get('HYPIXEL_API_KEY')
+	dbpassword: str = os.environ.get("DBPASS")
+	dbuser: str = os.environ.get("DBUSER")
+	mongoserver: str = os.environ.get("MONGOSERVER")
+	discordkey: str = os.environ.get('DISCORD_API_KEY')
+	catapi: str = os.environ.get('CATAPIKEY')
 
 
 class Styling:
@@ -21,3 +21,7 @@ class Styling:
 	ENDC = '\033[0m'
 	BOLD = '\033[1m'
 	UNDERLINE = '\033[4m'
+
+
+class TrackedCmds:
+	commands: list = ['hi', 'emotionalsupport', ]

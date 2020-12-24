@@ -24,7 +24,7 @@ def getLevel(name: str):
 	return math.floor(1 + REVERSE_PQ_PREFIX + math.sqrt(REVERSE_CONST + GROWTH_DIVIDES_2 * exp))  # This converts Hypixel EXP to a network level
 
 
-def averagefkdr(name):
+def averagefkdr(name: str):
 	url = f"https://api.hypixel.net/player?key={EnvVars.hypixelKey}&name={name}"
 	res = requests.get(url)
 	data = res.json()

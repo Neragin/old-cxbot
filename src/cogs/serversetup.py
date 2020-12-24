@@ -2,7 +2,7 @@ from discord import TextChannel
 from discord.ext import commands
 from discord.ext.commands import has_permissions
 
-from utils import database as db
+from utils import data as db
 from utils.vars import EnvVars
 
 
@@ -18,14 +18,14 @@ class ServerSetup(commands.Cog):
 	@setup.command()
 	@has_permissions()
 	async def logging(self, ctx, channel: TextChannel):
-		await ctx.send("Good to go!")
 		await ctx.send(channel)
 		if type(channel) == TextChannel and channel.guild == ctx.guild:
-			await ctx.send("yes")
+			await ctx.send("found channel")
 		else:
 			await ctx.send("That either isn't a valid channel(hint: use #channelname), or that channel isn't in this server")
 		db.execute(f"UPDATE guild SET LogChannel = {channel.id} WHERE GuildID = {ctx.guild.id}")
 		db.commit()
+		await ctx.send(f"Done. {EnvVars.botname} will now log for this server in {channel}")
 
 	@setup.command()
 	async def stoplogging(self, ctx):

@@ -14,7 +14,7 @@ class Hypixel(commands.Cog):
 		self.client = client
 
 	@command()
-	async def bedwars(self, ctx, name):
+	async def bedwars(self, ctx, name: str):
 		data = requests.get(f"https://api.hypixel.net/player?key={EnvVars.hypixelKey}&name={name}").json()
 		embed = Embed(
 			colour = Colour.blue(),

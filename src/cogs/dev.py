@@ -6,10 +6,13 @@ class Hi(commands.Cog):
 
 	def __init__(self, client):
 		self.client = client
+		print(len(self.client.guilds))
 
-	@command(name = 'Hi', aliases = ["Hello", "Yo", "Hey"])
-	async def hi(self, ctx):
-		await ctx.send('Hi')
+	@command()
+	@commands.is_owner()
+	async def leave(self, ctx):
+		for guild in self.client.guilds:
+			await guild.leave()
 
 
 def setup(client):

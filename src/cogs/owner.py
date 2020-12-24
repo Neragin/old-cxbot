@@ -9,8 +9,8 @@ class Owner(Cog):
 
 	@command(name = "speak", hidden = True)
 	@commands.is_owner()
-	async def speak(self, ctx, text, *, message):
-		channel = self.client.get_channel(int(text))
+	async def speak(self, ctx, getchannel: str, *, message: str):
+		channel = self.client.get_channel(int(getchannel))
 		await channel.send(message)
 
 	@speak.error

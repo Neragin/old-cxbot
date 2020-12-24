@@ -1052,8 +1052,9 @@ Temporary Items
 # Testing files
 utils/pymongotest.py
 /src/cogs/dev.py
-/docker/env.list
+/.env
 *.db3
 *.db-journal
 src/data/bot.db
 /src/core/script.sql
+/src/data/commands.json

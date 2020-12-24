@@ -1,4 +1,5 @@
 from sqlite3 import connect
+import json
 
 DB_PATH = "data/bot.db"
 
@@ -26,6 +27,17 @@ def execute(command, *values):
 def fetchall(*args):
 	cur.execute(*args)
 	return cur.fetchall()
+
+
+def loadjson():
+	with open("data/commands.json") as f:
+		data: dict = json.load(f)
+		return data
+
+
+def dumpjson(jsoncontent: dict):
+	with open("data/commands.json", "w") as f:
+		json.dump(jsoncontent, f)
 
 
 def scriptexec(path):
