@@ -1,13 +1,19 @@
-from datetime import datetime as dt
-
-from discord import Embed, Color
+"""
+imports
+"""
+import discord
+from discord import Embed
 from discord.ext.commands import Cog
+
 from utils import data as db
 
 
 class GuildLogging(Cog):
+	"""
+	Class for guildlogging backend code
+	"""
 	
-	def __init__(self, client):
+	def __init__(self, client: discord.client):
 		self.client = client
 	
 	# @Cog.listener()
@@ -34,8 +40,12 @@ class GuildLogging(Cog):
 	# 		await logchannel.send(embed = embed)
 	
 	@Cog.listener()
-	async def on_message_delete(self, message):
-		
+	async def on_message_delete(self, message: discord.message):
+		"""
+		a listener for deleted messages
+		:param message: the message sent to the
+		:return: message to logging channels that were in the database
+		"""
 		databseresult = db.fetchone(f"SELECT * FROM guild WHERE GuildID = {message.guild.id}")
 		loggingchannel = databseresult[1]
 		if loggingchannel == 0 or loggingchannel is None:
@@ -54,12 +64,18 @@ class GuildLogging(Cog):
 		for name, value, inline in fields:
 			embed.add_field(name = name, value = value, inline = inline)
 		embed.set_author(name = message.author, icon_url = message.author.avatar_url)
-		embed.set_footer(text = f"Membed id: {message.author.id}")
+		embed.set_footer(text = f"Member id: {message.author.id}")
 		await logchannel.send(embed = embed)
 	
 	@Cog.listener()
-	async def on_message_edit(self, before, after):
-		databseresult = db.fetchone(f"SELECT * FROM guild WHERE GuildID = {before.guild.id}")
+	async def on_message_edit(self, before: discord.message, after: discord.message):
+		"""
+		called when a message is edited
+		:param before: the message before
+		:param after: the message after
+		:return: an embed if the message was sent in a channel with logging enabled
+		"""
+		databseresult: dict = db.fetchone(f"SELECT * FROM guild WHERE GuildID = {before.guild.id}")
 		loggingchannel = databseresult[1]
 		if loggingchannel == 0 or loggingchannel is None:
 			return
@@ -84,7 +100,12 @@ class GuildLogging(Cog):
 			pass
 	
 	@Cog.listener()
-	async def on_member_join(self, member):
+	async def on_member_join(self, member: discord.member):
+		"""
+		called when a member joins
+		:param member: the member that joined
+		:return:
+		"""
 		print(member)
 		print("pass")
 		databseresult = db.fetchone(f"SELECT * FROM guild WHERE GuildID = {member.guild.id}")
@@ -93,7 +114,7 @@ class GuildLogging(Cog):
 		if loggingchannel == 0 or loggingchannel is None:
 			return
 		logchannel = member.guild.get_channel(loggingchannel)
-
+		
 		embed = Embed(
 			# color = member.color,
 			title = f"{member} has joined {member.guild.name}!",
@@ -102,7 +123,7 @@ class GuildLogging(Cog):
 		fields = [
 			("Member ID: ", f"{member.id}", True),
 		]
-
+		
 		for name, value, inline in fields:
 			embed.add_field(name = name, value = value, inline = inline)
 		embed.set_author(name = member, icon_url = member.avatar_url)
@@ -110,7 +131,12 @@ class GuildLogging(Cog):
 		await logchannel.send(embed = embed)
 	
 	@Cog.listener()
-	async def on_member_remove(self, member):
+	async def on_member_remove(self, member: discord.member):
+		"""
+
+		:param member:
+		:return:
+		"""
 		print("pass")
 		databseresult = db.fetchone(f"SELECT * FROM guild WHERE GuildID = {member.guild.id}")
 		loggingchannel = databseresult[1]
@@ -129,6 +155,11 @@ class GuildLogging(Cog):
 	
 	@Cog.listener()
 	async def on_invite_create(self, invite):
+		"""
+
+		:param invite:
+		:return:
+		"""
 		databseresult = db.fetchone(f"SELECT * FROM guild WHERE GuildID = {invite.guild.id}")
 		loggingchannel = databseresult[1]
 		if loggingchannel == 0 or loggingchannel is None:
@@ -153,20 +184,46 @@ class GuildLogging(Cog):
 	
 	@Cog.listener()
 	async def on_member_unban(self, guild, user):
+		"""
+
+		:param guild:
+		:param user:
+		"""
 		pass
 	
 	@Cog.listener()
 	async def on_member_ban(self, guild, user):
+		"""
+
+		:param guild:
+		:param user:
+		"""
 		pass
 	
 	@Cog.listener()
 	async def on_voice_state_update(self, member, before, after):
+		"""
+
+		:param member:
+		:param before:
+		:param after:
+		"""
 		pass
 	
 	@Cog.listener()
 	async def on_guild_role_update(self, guild, before, after):
+		"""
+
+		:param guild:
+		:param before:
+		:param after:
+		"""
 		pass
 
 
 def setup(client):
+	"""
+
+	:param client:
+	"""
 	client.add_cog(GuildLogging(client))

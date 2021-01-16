@@ -1,3 +1,6 @@
+"""
+
+"""
 from datetime import datetime
 from typing import Optional
 
@@ -6,33 +9,41 @@ from discord.ext.commands import Cog, command
 
 
 class GuildInfo(Cog):
+	"""
+
+	"""
+	
 	def __init__(self, client):
 		self.client = client
-
+	
 	@command(name = "userinfo", aliases = ["ui", "memberinfo", "mi"])
-	async def user_info(self, ctx, target: Optional[Member]):
-		target = target or ctx.author
+	async def user_info(self, ctx, user: Optional[Member]):
+		"""
+
+		:param user:
+		"""
+		user = user or ctx.author
 		embed = Embed(
 			title = "User Info",
-			colour = target.top_role.colour,
+			colour = user.top_role.colour,
 			timestamp = datetime.utcnow()
 		)
-		embed.set_thumbnail(url = target.avatar_url)
-
+		embed.set_thumbnail(url = user.avatar_url)
+		
 		fields = [
-			("ID", target.id, False),
-			("Name", target.mention, True),
-			("Tag", target, True),
-			("Bot?", target.bot, True),
-			("Top role", target.top_role.mention, True),
-			("Created at", target.created_at.strftime("%m/%d/%Y %H:%M:%S"), True),
-			("raw status", target.raw_status or '\u200B', True),
-			("Joined at", target.joined_at.strftime("%m/%d/%Y %H:%M:%S"), True),
+			("ID", user.id, False),
+			("Name", user.mention, True),
+			("Tag", user, True),
+			("Bot?", user.bot, True),
+			("Top role", user.top_role.mention, True),
+			("Created at", user.created_at.strftime("%m/%d/%Y %H:%M:%S"), True),
+			("raw status", user.raw_status or '\u200B', True),
+			("Joined at", user.joined_at.strftime("%m/%d/%Y %H:%M:%S"), True),
 		]
 		for name, value, inline in fields:
 			embed.add_field(name = name, value = value, inline = inline)
 		await ctx.send(embed = embed)
-
+	
 	"""
 	Shows Server Info 
 	gets the server ID, Region, Owner, Name, amount of roles, when server was made, and the member count
@@ -40,15 +51,18 @@ class GuildInfo(Cog):
 	name = serverinfo
 	aliases = si, guildinfo, gi
 	"""
-
+	
 	@command(name = "serverinfo", aliases = ["si", "guildinfo", "gi"])
 	async def server_info(self, ctx):
+		"""
+		Gets info about server
+		"""
 		embed = Embed(
 			title = "Server Info",
 			timestamp = datetime.utcnow()
 		)
 		embed.set_thumbnail(url = ctx.guild.icon_url)
-
+		
 		fields = [
 			("ID", ctx.guild.id, False),
 			("Region", ctx.guild.region, True),
@@ -64,4 +78,8 @@ class GuildInfo(Cog):
 
 
 def setup(client):
+	"""
+
+	:param client:
+	"""
 	client.add_cog(GuildInfo(client))

@@ -1,22 +1,47 @@
+"""
+
+"""
 from discord.ext import commands
 from discord.ext.commands import command
 
-from utils.catapi import getcat
+from utils.animalapi import *
 from utils.data import loadjson, dumpjson
 
 
 class EmotionalSupport(commands.Cog):
+	"""
 
+	"""
+	
 	def __init__(self, client):
 		self.client = client
+	
+	@command()
+	async def catgif(self, ctx):
+		"""
 
-	@command(name = 'EmotionalSupport', aliases = ['emotional', "emosupport"])
-	async def emotionalsupport(self, ctx):
-		await ctx.send(getcat())
+		"""
+		response = await gifcat()
+		await ctx.send(response)
 		data = loadjson()
-		data["emotionalsupport"] += 1
+		data["catgif"] += 1
+		dumpjson(data)
+	
+	@command()
+	async def cat(self, ctx):
+		"""
+		
+		"""
+		response = await cat()
+		await ctx.send(response)
+		data = loadjson()
+		data["cat"] += 1
 		dumpjson(data)
 
 
 def setup(client):
+	"""
+
+	:param client:
+	"""
 	client.add_cog(EmotionalSupport(client))

@@ -1,22 +1,29 @@
+"""
+backend code for hypixel commands
+"""
 import math
 
 import requests
 
 from utils.vars import EnvVars
 
-solo = ['solo', '1v1v1v1v1v1v1v1', 'solos']
-doubles = ['doubles', '2v2v2v2v2v2v2v2', 'double', ]
-BASE = 10_000
-GROWTH = 2_500
-REVERSE_PQ_PREFIX = -(BASE - 0.5 * GROWTH) / GROWTH
-REVERSE_CONST = REVERSE_PQ_PREFIX
-GROWTH_DIVIDES_2 = 2 / GROWTH
-"""
-Gets the hypixel level
-"""
+solo: list = ['solo', '1v1v1v1v1v1v1v1', 'solos']
+doubles: list = ['doubles', '2v2v2v2v2v2v2v2', 'double', ]
+BASE: int = 10_000
+GROWTH: int = 2_500
+REVERSE_PQ_PREFIX: float = -(BASE - 0.5 * GROWTH) / GROWTH
+REVERSE_CONST: float = REVERSE_PQ_PREFIX
+GROWTH_DIVIDES_2: float = 2 / GROWTH
+BEDWARS_EXP_PER_PRESTIGE: int = 489000
+BEDWARS_LEVELS_PER_PRESTIGE: int = 100
 
 
-def getLevel(name: str):
+def get_level(name: str) -> float or None:
+	"""
+	This function gets the hypixel level of a username
+	:param name: the name of the player
+	:return: the level of the player
+	"""
 	data = requests.get(f"https://api.hypixel.net/player?key={EnvVars.hypixelKey}&name={name}").json()
 	if data["player"] is None:
 		return None
@@ -24,38 +31,42 @@ def getLevel(name: str):
 	return math.floor(1 + REVERSE_PQ_PREFIX + math.sqrt(REVERSE_CONST + GROWTH_DIVIDES_2 * exp))  # This converts Hypixel EXP to a network level
 
 
-def averagefkdr(name: str):
-	url = f"https://api.hypixel.net/player?key={EnvVars.hypixelKey}&name={name}"
-	res = requests.get(url)
-	data = res.json()
-	print(type(data))
-	sum = round(int(data['player']['stats']['Bedwars']['final_kills_bedwars']) / int(data['player']['stats']['Bedwars']['final_deaths_bedwars']), 2)
-	starcount = int(data['player']['achievements']['bedwars_level'])
-	solokills = int(data['player']['stats']['Bedwars']['eight_one_kills_bedwars']) / int(data['player']['stats']['Bedwars']['eight_one_deaths_bedwars'])
-	f = int(data['player']['stats']['Bedwars']['eight_two_kills_bedwars']) / int(data['player']['stats']['Bedwars']['eight_two_deaths_bedwars'])
-	g = int(data['player']['stats']['Bedwars']['four_three_kills_bedwars']) / int(data['player']['stats']['Bedwars']['four_three_deaths_bedwars'])
-	h = int(data['player']['stats']['Bedwars']['four_four_kills_bedwars']) / int(data['player']['stats']['Bedwars']['four_four_deaths_bedwars'])
-	gf = solokills + f + g + h
-	gf = gf / 4
-	edsd = int(data['player']['stats']['Bedwars']['eight_one_wins_bedwars']) / int(data['player']['stats']['Bedwars']['eight_one_losses_bedwars'])
-	fdsds = int(data['player']['stats']['Bedwars']['eight_two_wins_bedwars']) / int(data['player']['stats']['Bedwars']['eight_two_losses_bedwars'])
-	gsd = int(data['player']['stats']['Bedwars']['four_three_wins_bedwars']) / int(data['player']['stats']['Bedwars']['four_three_losses_bedwars'])
-	dfs = int(data['player']['stats']['Bedwars']['four_four_wins_bedwars']) / int(data['player']['stats']['Bedwars']['four_four_losses_bedwars'])
-	coins = (data['player']['stats']['Bedwars']['coins'])
-	rr = edsd + fdsds + gsd + dfs
-	rr = rr / 4
-	return sum, starcount, gf, rr, coins
+def get_star(data: dict) -> float or int:
+	"""
+	This function returns the star of the hypixel player
+	:param data: the hypixel api in a dictionary format
+	:return: the star of the player specified in the data
+	"""
+	exp = data['player']['stats']['Bedwars']['Experience']
+	
+	prestige = round(exp / BEDWARS_EXP_PER_PRESTIGE)
+	exp %= BEDWARS_EXP_PER_PRESTIGE
+	if prestige > 5:
+		over = prestige % 5
+		exp += over * BEDWARS_EXP_PER_PRESTIGE
+		prestige -= over
+	if exp < 500:
+		return prestige * BEDWARS_LEVELS_PER_PRESTIGE
+	elif exp < 1500:
+		return 1 + (prestige * BEDWARS_LEVELS_PER_PRESTIGE)
+	elif exp < 3500:
+		return 2 + (prestige * BEDWARS_LEVELS_PER_PRESTIGE)
+	elif exp < 5500:
+		return 3 + (prestige * BEDWARS_LEVELS_PER_PRESTIGE)
+	elif exp < 9000:
+		return 4 + (prestige * BEDWARS_LEVELS_PER_PRESTIGE)
+	exp -= 9000
+	return (exp / 5000 + 4) + (prestige * BEDWARS_LEVELS_PER_PRESTIGE)
 
 
-"""
-This function gets winrate based on gamemode.
-params - data - the data from hypixel.net
-returns - winrate
-"""
-
-
-def getBedwarsWinRate(data: dict, gamemode: str):
-	apiGamemode = {
+def get_bedwars_win_rate(data: dict, gamemode: str) -> int:
+	"""
+	This function gets the bedwars win rate based on the player in data
+	:param data: the data in hypixel's api
+	:param gamemode: the gamemode to get for
+	:return: the win rate
+	"""
+	api_gamemode = {
 		'solo': 'eight_one_',
 		'doubles': 'eight_two_',
 		'threes': 'four_three_',
@@ -63,18 +74,17 @@ def getBedwarsWinRate(data: dict, gamemode: str):
 		'four': 'two_four_',
 		'all': '',
 	}
-	return round(data['player']['stats']['Bedwars'][f"{apiGamemode[gamemode]}wins_bedwars"] / data['player']['stats']['Bedwars'][f"{apiGamemode[gamemode]}losses_bedwars"], 2)
+	return round(data['player']['stats']['Bedwars'][f"{api_gamemode[gamemode]}wins_bedwars"] / data['player']['stats']['Bedwars'][f"{api_gamemode[gamemode]}losses_bedwars"], 2)
 
 
-"""
-This returns gets the fkdr based on gamemode
-params - data - the data from Hypixel's api
-returns - average fkdr
-"""
-
-
-def getBedwarsFinalKillDeath(data: dict, gamemode: str):
-	apiGamemode = {
+def get_bedwars_fkdr(data: dict, gamemode: str) -> int:
+	"""
+	This function gets the bedwars final kdr based on the player in data
+	:param data: the data from hypixel
+	:param gamemode: the gamemode to get for
+	:return: the final kill death ratio of the player
+	"""
+	api_gamemode = {
 		'solo': 'eight_one_',
 		'doubles': 'eight_two_',
 		'threes': 'four_three_',
@@ -82,4 +92,4 @@ def getBedwarsFinalKillDeath(data: dict, gamemode: str):
 		'four': 'two_four_',
 		'all': '',
 	}
-	return round(data['player']['stats']['Bedwars'][f"{apiGamemode[gamemode]}final_kills_bedwars"] / data["player"]["stats"]["Bedwars"][f"{apiGamemode[gamemode]}final_deaths_bedwars"], 2)
+	return round(data['player']['stats']['Bedwars'][f"{api_gamemode[gamemode]}final_kills_bedwars"] / data["player"]["stats"]["Bedwars"][f"{api_gamemode[gamemode]}final_deaths_bedwars"], 2)

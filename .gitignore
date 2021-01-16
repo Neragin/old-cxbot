@@ -1058,3 +1058,4 @@ utils/pymongotest.py
 src/data/bot.db
 /src/core/script.sql
 /src/data/commands.json
+/cxbot_key.pem
