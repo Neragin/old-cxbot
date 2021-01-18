@@ -40,3 +40,16 @@ async def cat():
 			return datadict["url"]
 		else:
 			return f"API returned a {response.status}"
+
+
+async def dog():
+	"""
+	
+	:return:
+	"""
+	url = "https://dog.ceo/api/breeds/image/random"
+	
+	async with request("GET", url) as response:
+		if response.status == 200:
+			data = await response.json()
+			return data['message']

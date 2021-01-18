@@ -48,7 +48,7 @@ class Botinfo(Cog):
 		await ctx.send(embed = embed)
 	
 	@command()
-	async def cmdstats(self, ctx: discord.ext.commands.Context, commands: str):
+	async def cmdstats(self, ctx, commands: str):
 		"""
 		shows how many times a command was run
 		:param commands: the command to check for
@@ -60,7 +60,7 @@ class Botinfo(Cog):
 			await ctx.send(f"That command isn't tracked! {EnvVars.botname} only tracks the usage of 2 commands, which are `hi`, and `emotionalsupport`")
 
 
-def setup(client: discord.ext.commands.Bot):
+def setup(client):
 	"""
 	sets up the cog
 	:param client: cxbot

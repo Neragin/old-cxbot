@@ -1,8 +1,9 @@
 """
 import startup methods
 """
-from core import startup
+from core import *
 
 if __name__ == '__main__':
 	# noinspection PyArgumentList
-	startup.CxBot.runbot()
+	# startup.CxBot.runbot()
+	bot.run()
