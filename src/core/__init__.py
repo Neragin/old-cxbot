@@ -16,7 +16,7 @@ class Bot(BaseBot):
 		self.PREFIX = f"{EnvVars.botname} "
 		self.scheduler = AsyncIOScheduler
 		self.ready = False
-		super().__init__(command_prefix = 'cx ', case_insensitive = True, owner_ids = OWNER_ID, intents = Intents.all())
+		super().__init__(command_prefix = self.PREFIX, case_insensitive = True, owner_ids = OWNER_ID, intents = Intents.all())
 	
 	def run(self):
 		self.loadcogs()
@@ -35,6 +35,7 @@ class Bot(BaseBot):
 	def loadcommands(self):
 		for filename in os.listdir("stable"):
 			if filename.endswith(".py"):
+				super().load_extension(f"stable.{filename[:-3]}")
 				print(f"loaded command {filename[:-2]}")
 		print(Styling.OKGREEN + "Finished loading all commands!")
 	

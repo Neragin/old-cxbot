@@ -11,6 +11,7 @@ class EmotionalSupport(commands.Cog):
 	
 	@command()
 	async def catgif(self, ctx):
+		print("yes")
 		response = await gifcat()
 		await ctx.send(response)
 		data = loadjson()
