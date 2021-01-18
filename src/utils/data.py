@@ -67,11 +67,11 @@ def loadjson():
 		return data
 
 
-def field(command, *values):
-	cur.execute(command, tuple(values))
-	
-	if (fetch := cur.fetchone()) is not None:
-		return fetch[0]
+# def field(command, *values):
+# 	cur.execute(command, tuple(values))
+#
+# 	if (fetch := cur.fetchone()) is not None:
+# 		return fetch[0]
 
 
 def record(command, *values):
