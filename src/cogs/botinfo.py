@@ -61,8 +61,4 @@ class Botinfo(Cog):
 
 
 def setup(client):
-	"""
-	sets up the cog
-	:param client: cxbot
-	"""
 	client.add_cog(Botinfo(client))

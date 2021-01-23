@@ -1,15 +1,8 @@
-"""
-
-"""
 from discord.ext import commands
 from discord.ext.commands import command
 
 
 class Ping(commands.Cog):
-	"""
-	Bots Ping
-	"""
-	
 	def __init__(self, client):
 		self.client = client
 	
@@ -22,8 +15,4 @@ class Ping(commands.Cog):
 
 
 def setup(client):
-	"""
-
-	:param client:
-	"""
 	client.add_cog(Ping(client))

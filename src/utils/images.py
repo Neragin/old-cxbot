@@ -1,15 +1,14 @@
-from io import BytesIO
+from os import listdir
+from os.path import splitext
 
-from PIL import Image
+PATH = "data/images"
 
 
-async def getimg(imglink, tag):
-	"""
-	bot moment
-	:param imglink:
-	:param tag:
-	"""
-	asset = imglink
-	data = BytesIO(await asset.read)
-	pfp = Image.open(data)
-	pfp.save("/data/images/{tag}.png", "PNG")
+async def getimgs(imgtag):
+	dirs = listdir(PATH)
+	print("starting getimg stuff")
+	for file in dirs:
+		print(file)
+		if splitext(file)[0] == imgtag:
+			print(file)
+			return file

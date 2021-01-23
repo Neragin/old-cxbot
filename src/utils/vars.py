@@ -24,4 +24,4 @@ class Styling:
 
 
 class TrackedCmds:
-	commands: list = ['hi', 'emotionalsupport', ]
+	commands: list = ['hi', 'cat', 'catgif']

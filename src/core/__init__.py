@@ -14,7 +14,8 @@ OWNER_ID = [308404126830559233]
 class Bot(BaseBot):
 	def __init__(self):
 		self.PREFIX = f"{EnvVars.botname} "
-		self.scheduler = AsyncIOScheduler
+		self.scheduler = AsyncIOScheduler()
+		db.autosave(self.scheduler)
 		self.ready = False
 		super().__init__(command_prefix = self.PREFIX, case_insensitive = True, owner_ids = OWNER_ID, intents = Intents.all())
 	
@@ -62,12 +63,16 @@ class Bot(BaseBot):
 			print("CxBot is ready")
 			await super().change_presence(status = Status.idle, activity = Game(f"{self.PREFIX} help for commands"))
 			print("---------------------adding unadded guilds into database-----------------")
-			for guild in super().guilds:
-				db.execute("INSERT OR IGNORE INTO guild (GuildID, LogChannel) VALUES (?, ?)", guild.id, 0)
-				db.commit()
-			print("Done!")
+			await self.addtodb()
+			self.scheduler.start()
 		else:
 			print("CxBot has reconnected")
+	
+	async def addtodb(self):
+		for guilds in super().guilds:
+			db.execute("INSERT OR IGNORE INTO guild (GuildID, LogChannel) VALUES (?, ?)", guilds.id, 0)
+			db.commit()
+		print("done")
 
 
 bot = Bot()

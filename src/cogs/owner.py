@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import command, Cog
 
-from utils import data as db
+from utils import data as db, images
 
 
 class Owner(Cog):
@@ -34,19 +34,6 @@ class Owner(Cog):
 			await ctx.send("You aren't my Owner!")
 		else:
 			raise error
-	
-	@command(name = "upload")
-	@commands.is_owner()
-	async def upload(self, ctx, name: str = None):
-		"""
-		uploads an image to cxbot
-		"""
-		await ctx.send("okay, send in a image")
-		
-		msg: discord.Message = await self.client.wait_for('message')
-		msg: discord.Attachment = msg.attachments[0]
-		split = os.path.splitext(msg.filename)
-		await msg.save(f"data/images/{msg.filename if name is None else name + split[1]}")
 	
 	@command(name = "shutdown", aliases = ["die", "kill", "terminate", "disconnect", "exit", "goboom"])
 	@commands.is_owner()
@@ -76,12 +63,32 @@ class Owner(Cog):
 		self.client.load_extension(f'cogs.{extension}')
 		await ctx.send(f"reloaded {extension}")
 	
-	@command(hidden = True)
+	@commands.group(name = "image", aliases = ["img"], invoke_without_command = True)
 	@commands.is_owner()
-	async def reload(self, ctx, extension):
-		self.client.unload_extension(f'cogs.{extension}')
-		self.client.load_extension(f'cogs.{extension}')
-		await ctx.send(f"reloaded {extension}")
+	async def img(self, ctx):
+		await ctx.send("this is a group of commands u tard")
+	
+	@img.command()
+	@commands.is_owner()
+	async def upload(self, ctx, name: str = None):
+		"""
+		uploads an image to cxbot
+		"""
+		await ctx.send("okay, send in a image")
+		
+		msg: discord.Message = await self.client.wait_for('message')
+		msg: discord.Attachment = msg.attachments[0]
+		split = os.path.splitext(msg.filename)
+		print(split)
+		await msg.save(f"data/images/{msg.filename if name is None else name + split[1]}")
+	
+	@img.command()
+	@commands.is_owner()
+	async def get(self, ctx, imgtag):
+		img = await images.getimgs(imgtag)
+		print(img)
+		# print(type(img))
+		await ctx.send(file = discord.File(f'data/images/{img}'))
 
 
 def setup(client):

@@ -6,6 +6,8 @@ import json
 from os.path import isfile
 from sqlite3 import connect
 
+from apscheduler.triggers.cron import CronTrigger
+
 DB_PATH: str = "data/bot.db"
 JSON_PATH: str = "data/commands.json"
 BUILD: str = "core/script.sql"
@@ -116,3 +118,7 @@ def scriptexec(path):
 	"""
 	with open(path, "r", encoding = "utf-8") as script:
 		cur.executescript(script.read())
+
+
+def autosave(scheduler):
+	scheduler.add_job(commit, CronTrigger(second = 0))
